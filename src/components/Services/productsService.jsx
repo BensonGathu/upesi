@@ -20,3 +20,33 @@ export const getProductDetails = async (productId) => {
   }
 };
 
+
+export const updateProduct = async (productId, updatedData) => {
+  console.log("UPDATING PRODUCT",productId);
+  try {
+    const response = await axios.patch(`${BASE_URL}/${productId}`, updatedData);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteProduct = async (productId) => {
+  console.log("DELETEING PRODUCT",productId);
+  try {
+   const response= await axios.delete(`${BASE_URL}/${productId}`);
+   console.log(response.data);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addProduct = async (product) => {
+  try {
+    const response = await axios.post(BASE_URL, product);
+    return response.data; 
+  } catch (error) {
+    throw error;
+  }
+};

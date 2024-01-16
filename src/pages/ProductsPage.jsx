@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import ProductCard from '../components/ProductCard';
+import ProductCard from '../components/Product/ProductCard';
+import { Link } from 'react-router-dom'; 
 import { getAllProducts } from '../components/Services/productsService';
 import ReactPaginate from 'react-paginate'; 
 
@@ -33,8 +34,15 @@ const ProductsPage = () => {
 
   return (
     <div className="mt-40">
+       <Link
+        to="/add-product"
+        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Add Product
+      </Link>
       <div className="grid">
         {currentProducts.map((product) => (
+          <Link to={`/products/${product.id}`} key={product.id}> 
           <ProductCard
             key={product.id}
             title={product.title}
@@ -42,6 +50,7 @@ const ProductsPage = () => {
             image={product.image}
             ratings={product.ratings}
           />
+           </Link>
         ))}
       </div>
 
