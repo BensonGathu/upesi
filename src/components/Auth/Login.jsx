@@ -1,9 +1,9 @@
-// LoginForm.js
-
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginSuccess, loginFailure } from '../../slices/authSlice';
 import { login } from '../Services/authService';
+import { useParams, useNavigate } from 'react-router-dom';
+import { GoogleLogin } from 'react-google-login'; 
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -13,6 +13,7 @@ const LoginForm = () => {
   });
 
   const { username, password } = formData;
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,14 +21,23 @@ const LoginForm = () => {
       const response = await login(formData);
 
       dispatch(loginSuccess(response.token));
+      navigate('/');
     } catch (error) {
       dispatch(loginFailure('Login failed'));
-   
+    }
+  };
+
+  const responseGoogle = (response) => {
+    if (response.profileObj) {
+      const { name, email, imageUrl } = response.profileObj;
+
+    } else {
+      console.log('Google Sign-In failed.');
     }
   };
 
   return (
-    <div className="max-w-sm mx-auto mt-40">
+    <div className="max-w-sm mx-auto mt-40 h-screen">
       <form onSubmit={handleSubmit}>
         <div className="mb-5">
           <label htmlFor="text" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -37,7 +47,7 @@ const LoginForm = () => {
             type="text"
             id="text"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="name@flowbite.com"
+            placeholder="username"
             required
             value={username}
             onChange={(e) => setFormData({ ...formData, username: e.target.value })}
@@ -64,6 +74,17 @@ const LoginForm = () => {
           Submit
         </button>
       </form>
+
+      
+      <div className="mt-4">
+        <GoogleLogin
+          clientId="600187593848-6ci83f9a0fr37o3bkjponf636v2tslri.apps.googleusercontent.com"
+          buttonText="Sign in with Google"
+          onSuccess={responseGoogle}
+          onFailure={responseGoogle}
+          cookiePolicy={'single_host_origin'}
+        />
+      </div>
     </div>
   );
 };

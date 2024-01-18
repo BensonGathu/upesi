@@ -43,8 +43,10 @@ export const deleteProduct = async (productId) => {
 };
 
 export const addProduct = async (product) => {
+  console.log("ADDING PRODUCT",product);
   try {
     const response = await axios.post(BASE_URL, product);
+    console.log(response.data);
     return response.data; 
   } catch (error) {
     throw error;

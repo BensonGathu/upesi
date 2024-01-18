@@ -1,21 +1,27 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginSuccess, logout } from "../../slices/authSlice"; 
 import { useState } from "react";
 
 const Navbar = (props) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-
+  const dispatch = useDispatch(); 
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated); 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  const handleLoginLogout = () => {
+    if (isAuthenticated) {
+      dispatch(logout());
+    } else {
+      window.location.href = "/login";
+    }
+  };
+
   const navItems = [
     { path: "/", text: "Home" },
-    { path: "/products", text: "Products" },
-    { path: "/services", text: "Services" },
-    { path: "/about", text: "About Us" },
-    { path: "/gallery", text: "Gallery" },
-    { path: "/contact", text: "Contact" },
   ];
 
   const isLargeScreen = window.innerWidth >= 768;
@@ -52,7 +58,6 @@ const Navbar = (props) => {
           </div>
 
           <div className="flex md:order-2">
-          
             <button
               onClick={toggleMobileMenu}
               className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
@@ -77,6 +82,7 @@ const Navbar = (props) => {
               </svg>
             </button>
           </div>
+
           <div
             className={`${
               isMobileMenuOpen ? "block" : "hidden"
@@ -101,6 +107,15 @@ const Navbar = (props) => {
                 </li>
               ))}
             </ul>
+          </div>
+
+          <div className="md:order-3">
+            <button
+              onClick={handleLoginLogout}
+              className="text-gray-500 hover:text-green-700 dark:text-gray-400 dark:hover:text-green-500"
+            >
+              {isAuthenticated ? "Logout" : "Login"}
+            </button>
           </div>
         </div>
       </nav>

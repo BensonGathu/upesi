@@ -63,7 +63,7 @@ const ProductDetail = () => {
     try {
       await deleteProduct(id);
       alert('Product deleted successfully!');
-      navigate('/products');
+      navigate('/');
     } catch (error) {
       console.error('Error deleting product:', error);
       alert('Error deleting product. Please try again later.');
