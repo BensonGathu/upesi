@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { loginSuccess, loginFailure } from '../../slices/authSlice';
 import { login } from '../Services/authService';
 import { useParams, useNavigate } from 'react-router-dom';
-import { GoogleLogin } from 'react-google-login'; 
+import { GoogleLogin } from '@react-oauth/google';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -28,9 +28,10 @@ const LoginForm = () => {
   };
 
   const responseGoogle = (response) => {
-    if (response.profileObj) {
-      const { name, email, imageUrl } = response.profileObj;
 
+    if (response.credential) {
+      dispatch(loginSuccess(response.credential));
+      navigate('/');
     } else {
       console.log('Google Sign-In failed.');
     }
@@ -78,7 +79,6 @@ const LoginForm = () => {
       
       <div className="mt-4">
         <GoogleLogin
-          clientId="600187593848-6ci83f9a0fr37o3bkjponf636v2tslri.apps.googleusercontent.com"
           buttonText="Sign in with Google"
           onSuccess={responseGoogle}
           onFailure={responseGoogle}

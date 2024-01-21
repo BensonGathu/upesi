@@ -137,20 +137,21 @@ const ProductsPage = () => {
         ))}
       </div>
 
-      <div className="mt-4 flex justify-center">
-        <ReactPaginate
-          previousLabel={'Previous'}
-          nextLabel={'Next'}
-          breakLabel={'...'}
-          pageCount={pageCount}
-          onPageChange={handlePageChange}
-          containerClassName={'pagination'}
-          previousLinkClassName={'pagination__link'}
-          nextLinkClassName={'pagination__link'}
-          disabledClassName={'pagination__link--disabled'}
-          activeClassName={'pagination__link--active'}
-        />
-      </div>
+      <div className="mt-4 flex items-center justify-center space-x-4">
+  <ReactPaginate
+    previousLabel={'Previous'}
+    nextLabel={'Next'}
+    breakLabel={'...'}
+    pageCount={pageCount}
+    onPageChange={handlePageChange}
+    containerClassName={'flex items-center space-x-2'}
+    previousLinkClassName={'px-3 py-1 border rounded text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white'}
+    nextLinkClassName={'px-3 py-1 border rounded text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white'}
+    disabledClassName={'text-gray-400 cursor-not-allowed'}
+    activeClassName={'bg-blue-500 text-white px-3 py-1 border rounded'}
+  />
+</div>
+
 
       <AddProductModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onAddProduct={handleAddProduct} />
     </div>
