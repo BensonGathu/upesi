@@ -71,7 +71,7 @@ const ProductDetail = () => {
   };
 
   if (!product) {
-    return <section className="h-screen text-center justify-center mt-10">Loading...</section>;
+    return <section className="h-screen text-center justify-center">Loading...</section>;
   }
 
   return (

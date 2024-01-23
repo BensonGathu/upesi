@@ -1,13 +1,13 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loginSuccess, logout } from "../../slices/authSlice"; 
+import { loginSuccess, logout } from "../../slices/authSlice";
 import { useState } from "react";
 
 const Navbar = (props) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const dispatch = useDispatch(); 
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated); 
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -27,7 +27,7 @@ const Navbar = (props) => {
   const isLargeScreen = window.innerWidth >= 768;
 
   return (
-    <div>
+    <div className="mb-40">
       <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 md:py-8">
           <div>
@@ -41,8 +41,18 @@ const Navbar = (props) => {
                 <Link to="/">Upesi</Link>
               </span>
             </a>{" "}
-     
           </div>
+
+          {isLargeScreen && (
+            <div className="md:order-3">
+              <button
+                onClick={handleLoginLogout}
+                className="bg-green-400 py-2 px-6 rounded-md text-white font-medium"
+              >
+                {isAuthenticated ? "Logout" : "Login"}
+              </button>
+            </div>
+          )}
 
           <div className="flex md:order-2">
             <button
@@ -93,16 +103,17 @@ const Navbar = (props) => {
                   </NavLink>
                 </li>
               ))}
+              {!isLargeScreen && (
+                <li>
+                  <button
+                    onClick={handleLoginLogout}
+                    className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100"
+                  >
+                    {isAuthenticated ? "Logout" : "Login"}
+                  </button>
+                </li>
+              )}
             </ul>
-          </div>
-
-          <div className="md:order-3">
-            <button
-              onClick={handleLoginLogout}
-              className="bg-green-400 py-2 px-6 rounded-md text-white font-medium"
-            >
-              {isAuthenticated ? "Logout" : "Login"}
-            </button>
           </div>
         </div>
       </nav>

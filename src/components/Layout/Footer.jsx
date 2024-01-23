@@ -5,7 +5,7 @@ const Footer = () => {
           <div class="sm:flex sm:items-center sm:justify-between">
             <a href="" class="flex items-center mb-4 sm:mb-0">
               <img
-                src="https://img.freepik.com/free-vector/spices-herbs-template-circle-composition_1284-52134.jpg?size=626&ext=jpg&ga=GA1.2.726094846.1694628960&semt=sph"
+                src="https://cdn-icons-png.freepik.com/512/7835/7835563.png"
                 class="h-8 mr-3"
                 alt="Flowbite Logo"
               />
