@@ -1,13 +1,27 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loginSuccess, logout } from "../../slices/authSlice";
-import { useState } from "react";
+import { logout } from "../../slices/authSlice";
+import { useState, useEffect } from "react";
 
 const Navbar = (props) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLargeScreen(window.innerWidth >= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -23,8 +37,6 @@ const Navbar = (props) => {
   const navItems = [
     { path: "/", text: "Home" },
   ];
-
-  const isLargeScreen = window.innerWidth >= 768;
 
   return (
     <div className="mb-40">
