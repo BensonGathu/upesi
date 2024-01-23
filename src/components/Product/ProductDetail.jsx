@@ -71,36 +71,36 @@ const ProductDetail = () => {
   };
 
   if (!product) {
-    return <div className="text-center mt-10">Loading...</div>;
+    return <section className="h-screen text-center justify-center mt-10">Loading...</section>;
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-        <div className="bg-gray-200 h-auto overflow-hidden">
-          <img
-            src={product.image}
-            alt={product.title}
-            className="object-fill object-center w-full"
-          />
-        </div>
-        <div className="p-6">
-          <h2 className="text-3xl font-semibold mb-4">{product.title}</h2>
-          <p className="text-gray-600 text-sm mb-4">{product.category}</p>
-          <p className="text-gray-800 text-lg mb-4">${product.price}</p>
-          <p className="text-gray-700 leading-relaxed mb-4">{product.description}</p>
-          {!showUpdateForm ? (
+    <div className=" pt-30 pb-12 lg:py-32 h-screen flex items-center">
+
+      <div className='container mx-auto'>
+        <div className='flex flex-col lg:flex-row items-center'>
+          <div className='flex flex-1 justify-center items-center mb-8 lg:mb-0'>
+            <img className='max-h-[400px] lg:max-w-sm hover:scale-110 transition duration-300' src={product.image} alt={product.title} />
+          </div>
+
+          <div className='flex-1 text-center lg:text-left'>
+            <h1 className='uppercase font-bold text-green-400'>{product.category}</h1>
+            <h1 className='text-[26px] font-medium mb-2 max-w-[450px] mx-auto lg:mx-0'>{product.title}</h1>
+            <div className='text-xl text-amber-800 font-medium mb-6'>${product.price}</div>
+            <div className='max-w-[500px]'>
+              <p className='mb-5'>{product.description}</p>
+            </div>
+
+            {!showUpdateForm ? (
             <div className="flex">
               <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={() => setShowUpdateForm(true)}
-              >
-                <FaEdit />              </button>
+                className="bg-green-400 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() => setShowUpdateForm(true)}><FaEdit /></button>
               <button
                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2"
-                onClick={handleDelete}
-              >
-                <FaTrash />             </button>
+                onClick={handleDelete}>
+                <FaTrash />
+              </button>
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
@@ -109,7 +109,7 @@ const ProductDetail = () => {
                   Title
                 </label>
                 <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline max-w-[500px]"
                   id="title"
                   type="text"
                   name="title"
@@ -123,7 +123,7 @@ const ProductDetail = () => {
                   Price
                 </label>
                 <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className=" max-w-[500px] shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="price"
                   type="number"
                   name="price"
@@ -137,7 +137,7 @@ const ProductDetail = () => {
                   Category
                 </label>
                 <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="max-w-[500px] shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="category"
                   type="text"
                   name="category"
@@ -146,12 +146,12 @@ const ProductDetail = () => {
                   required
                 />
               </div>
-              <div className="mb-4">
+              <div className="mb-4 max-h-[200px]">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
                   Description
                 </label>
                 <textarea
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="max-w-[500px] h-44 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="description"
                   name="description"
                   value={formData.description}
@@ -167,7 +167,11 @@ const ProductDetail = () => {
               </button>
             </form>
           )}
+            
+          </div>
+
         </div>
+
       </div>
     </div>
   );

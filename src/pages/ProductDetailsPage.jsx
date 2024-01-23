@@ -4,8 +4,8 @@ const ProductDetailsPage = () => {
 
 
     return (
-        <div className="mt-40">
-            <ProductDetail></ProductDetail>    </div>
+        <div>
+            <ProductDetail/>  </div>
     )
 }
 

@@ -3,6 +3,7 @@ import ProductCard from '../components/Product/ProductCard';
 import { Link } from 'react-router-dom';
 import { getAllProducts, addProduct } from '../components/Services/productsService';
 import ReactPaginate from 'react-paginate';
+import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai"; 
 import AddProductModal from '../components/Product/AddProductModal';
 
 const ProductsPage = () => {
@@ -47,7 +48,7 @@ const ProductsPage = () => {
     return 0;
   });
 
-  const handleSortBy = (criteria) => {
+ const handleSortBy = (criteria) => {
     setSortCriteria(criteria);
     setIsDropdownOpen(false);
   };
@@ -71,41 +72,40 @@ const ProductsPage = () => {
   return (
     <div className="m-40">
       <div className="mb-4">
-        <div className="relative inline-block text-left">
+        <div className="flex justify-start mb-4">
           <button
             type="button"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-32"
             onClick={toggleDropdown}
           >
             Sort
           </button>
           {isDropdownOpen && (
-            <div className="origin-top-right absolute right-0 mt-2 w-32 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-              <div className="py-1" role="none">
+<div className="origin-top-left absolute left- mt-10 w-32 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50">              <div className="py-1" role="none">
                 <button
                   onClick={() => handleSortBy('price-asc')}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-32"
                   role="menuitem"
                 >
                   Price (Ascending)
                 </button>
                 <button
                   onClick={() => handleSortBy('price-desc')}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-32"
                   role="menuitem"
                 >
                   Price (Descending)
                 </button>
                 <button
                   onClick={() => handleSortBy('name-asc')}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-32"
                   role="menuitem"
                 >
                   Name (Ascending)
                 </button>
                 <button
                   onClick={() => handleSortBy('name-desc')}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-32"
                   role="menuitem"
                 >
                   Name (Descending)
@@ -118,7 +118,7 @@ const ProductsPage = () => {
 
       <button
         onClick={() => setIsModalOpen(true)}
-        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-10 w-32"
       >
         Add Product
       </button>
@@ -137,21 +137,30 @@ const ProductsPage = () => {
         ))}
       </div>
 
-      <div className="mt-4 flex items-center justify-center space-x-4">
-  <ReactPaginate
-    previousLabel={'Previous'}
-    nextLabel={'Next'}
-    breakLabel={'...'}
-    pageCount={pageCount}
-    onPageChange={handlePageChange}
-    containerClassName={'flex items-center space-x-2'}
-    previousLinkClassName={'px-3 py-1 border rounded text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white'}
-    nextLinkClassName={'px-3 py-1 border rounded text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white'}
-    disabledClassName={'text-gray-400 cursor-not-allowed'}
-    activeClassName={'bg-blue-500 text-white px-3 py-1 border rounded'}
-  />
-</div>
-
+      <div className="mt-8">
+        <ReactPaginate
+          previousLabel={
+            <span className='w-10 h-10 flex items-center justify-center rounded-md'>
+              <AiFillLeftCircle size="30" className='text-green-400'  />
+            </span> 
+          }
+          nextLabel={
+            <span className='w-10 h-10 flex items-center justify-center bg-lightGray rounded-md mr-4'>
+              <AiFillRightCircle size="30" className='text-green-400'  />
+             </span>  
+          }
+          breakLabel={'...'}
+          
+          pageCount={pageCount}
+          pageClassName='block border border-solid border-green-400  hover:bg-green-400 w-10 h-10 flex items-center justify-center rounded-md mx-2'
+          onPageChange={handlePageChange}
+          containerClassName= "flex items-center justify-center mt-8 mb-4"
+          previousLinkClassName={'pagination__link'}
+          nextLinkClassName={'pagination__link'}
+          disabledClassName={'pagination__link--disabled'}
+          activeClassName="bg-green-500 text-white rounded-md" 
+        />
+      </div>
 
       <AddProductModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onAddProduct={handleAddProduct} />
     </div>

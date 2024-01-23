@@ -1,29 +1,33 @@
+
 import React from 'react';
+
+
 
 const ProductCard = (props) => {
   return (
-    <div className="bg-white rounded-md shadow-md h-full">
-      <div className="">
-        <img
-          src={props.image}
-          alt={props.imageAlt}
-          className="object-fill object-center max-w-full max-h-full transition-transform transform scale-100 group-hover:scale-105"
-        />
-      </div>
-      <div className="p-2 flex flex-col justify-between">
-        <div>
-          <h3 className="text-sm font-semibold text-gray-800 truncate">
-            <a href={props.href} className="hover:underline">
-              {props.title} 
-             
-            </a>
-          </h3>
+
+    <>
+      <div className='border border-[#e4e4e4] h-[300px] mb-4 relative overflow-hidden group transition'>
+        <div className="w-full h-full flex justify-center items-center">
+       
+          <div className="w-[200px] mx-auto flex justify-center items-center">
+            <img className="max-h-[160px] group-hover:scale-110 transition duration-300" src={props.image} alt={props.imageAlt} />
+
+          </div>
+
         </div>
-        <div className="mt-1 flex justify-between items-center">
-          <p className="text-xs font-medium text-gray-900">{props.price}</p>
-        </div>
+
+    
+
       </div>
-    </div>
+
+      <div>
+        <a className="font-semibold mb-1" href={props.href}>{props.title}</a>
+        <div className="font-semibold">$ {props.price}</div>
+      </div>
+      
+   </>
+
   );
 };
 

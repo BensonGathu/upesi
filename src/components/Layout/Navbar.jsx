@@ -33,28 +33,15 @@ const Navbar = (props) => {
           <div>
             <a href="/" className="flex items-center">
               <img
-                src="https://img.freepik.com/free-vector/spices-herbs-template-circle-composition_1284-52134.jpg?size=626&ext=jpg&ga=GA1.2.726094846.1694628960&semt=sph"
+                src="https://cdn-icons-png.freepik.com/512/7835/7835563.png"
                 className="h-12 mr-3"
                 alt="Flowbite Logo"
               />
               <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                <Link to="/">UpesiShop</Link>
+                <Link to="/">Upesi</Link>
               </span>
             </a>{" "}
-            {isLargeScreen && (
-              <div className="pt-1 flex text-sm text-black">
-                <p className="mr-3">
-                  <a href="tel:+1234567890" className="text-black">
-                    +25370012345
-                  </a>
-                </p>
-                <p>
-                  <a href="mailto:contact@upesi.com" className="text-black">
-                    contact@upesi.com
-                  </a>
-                </p>
-              </div>
-            )}
+     
           </div>
 
           <div className="flex md:order-2">
@@ -112,7 +99,7 @@ const Navbar = (props) => {
           <div className="md:order-3">
             <button
               onClick={handleLoginLogout}
-              className="text-gray-500 hover:text-green-700 dark:text-gray-400 dark:hover:text-green-500"
+              className="bg-green-400 py-2 px-6 rounded-md text-white font-medium"
             >
               {isAuthenticated ? "Logout" : "Login"}
             </button>
