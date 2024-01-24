@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useParams,useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getProductDetails, updateProduct, deleteProduct } from '../Services/productsService';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import EditProductForm from './EditProductForm';
+
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -15,7 +16,6 @@ const ProductDetail = () => {
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const navigate = useNavigate();
 
-  
   useEffect(() => {
     async function fetchProductDetails() {
       try {
@@ -35,8 +35,6 @@ const ProductDetail = () => {
     fetchProductDetails();
   }, [id]);
 
-
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -46,11 +44,11 @@ const ProductDetail = () => {
     e.preventDefault();
     try {
       const updatedData = await updateProduct(id, formData);
-     if (updatedData.image) {
-      setProduct(updatedData);
-    } else {
-      setProduct({ ...updatedData, image: product.image });
-    }
+      if (updatedData.image) {
+        setProduct(updatedData);
+      } else {
+        setProduct({ ...updatedData, image: product.image });
+      }
       alert('Product updated successfully!');
       setShowUpdateForm(false);
     } catch (error) {
@@ -71,14 +69,13 @@ const ProductDetail = () => {
   };
 
   if (!product) {
-    return <section className="h-screen text-center justify-center">Loading...</section>;
+    return <section className="min-h-screen text-center justify-center">Loading...</section>;
   }
 
   return (
-    <div className=" pt-30 pb-12 lg:py-32 h-screen flex items-center">
-
+    <div className="h-screen flex items-center">
       <div className='container mx-auto'>
-        <div className='flex flex-col lg:flex-row items-center'>
+        <div className='flex flex-col lg:flex-row items-center p-10'>
           <div className='flex flex-1 justify-center items-center mb-8 lg:mb-0'>
             <img className='max-h-[400px] lg:max-w-sm hover:scale-110 transition duration-300' src={product.image} alt={product.title} />
           </div>
@@ -92,94 +89,27 @@ const ProductDetail = () => {
             </div>
 
             {!showUpdateForm ? (
-            <div className="flex">
-              <button
-                className="bg-green-400 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                onClick={() => setShowUpdateForm(true)}><FaEdit /></button>
-              <button
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2"
-                onClick={handleDelete}>
-                <FaTrash />
-              </button>
-            </div>
-          ) : (
-
-            <EditProductForm
+              <div className="flex">
+                <button
+                  className="bg-green-400 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={() => setShowUpdateForm(true)}><FaEdit /></button>
+                <button
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2"
+                  onClick={handleDelete}>
+                  <FaTrash />
+                </button>
+              </div>
+            ) : (
+              <EditProductForm
                 product={product}
                 formData={formData}
                 showUpdateForm={showUpdateForm}
                 handleInputChange={handleInputChange}
                 handleSubmit={handleSubmit}
               />
-            // <form onSubmit={handleSubmit}>
-            //   <div className="mb-4">
-            //     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
-            //       Title
-            //     </label>
-            //     <input
-            //       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline max-w-[500px]"
-            //       id="title"
-            //       type="text"
-            //       name="title"
-            //       value={formData.title}
-            //       onChange={handleInputChange}
-            //       required
-            //     />
-            //   </div>
-            //   <div className="mb-4">
-            //     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="price">
-            //       Price
-            //     </label>
-            //     <input
-            //       className=" max-w-[500px] shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            //       id="price"
-            //       type="number"
-            //       name="price"
-            //       value={formData.price}
-            //       onChange={handleInputChange}
-            //       required
-            //     />
-            //   </div>
-            //   <div className="mb-4">
-            //     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">
-            //       Category
-            //     </label>
-            //     <input
-            //       className="max-w-[500px] shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            //       id="category"
-            //       type="text"
-            //       name="category"
-            //       value={formData.category}
-            //       onChange={handleInputChange}
-            //       required
-            //     />
-            //   </div>
-            //   <div className="mb-4 max-h-[200px]">
-            //     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
-            //       Description
-            //     </label>
-            //     <textarea
-            //       className="max-w-[500px] h-44 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            //       id="description"
-            //       name="description"
-            //       value={formData.description}
-            //       onChange={handleInputChange}
-            //       required
-            //     />
-            //   </div>
-            //   <button
-            //     className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-            //     type="submit"
-            //   >
-            //     Update Product
-            //   </button>
-            // </form>
-          )}
-            
+            )}
           </div>
-
         </div>
-
       </div>
     </div>
   );

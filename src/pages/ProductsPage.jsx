@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import ProductCard from '../components/Product/ProductCard';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
-import { getAllProducts, addProduct } from '../components/Services/productsService';
 import ReactPaginate from 'react-paginate';
-import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai"; 
-import AddProductModal from '../components/Product/AddProductModal';
+import { AiFillLeftCircle, AiFillRightCircle } from 'react-icons/ai';
+import { getAllProducts, addProduct } from '../components/Services/productsService';
+
+const ProductCard = lazy(() => import('../components/Product/ProductCard'));
+const AddProductModal = lazy(() => import('../components/Product/AddProductModal'));
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
@@ -12,8 +13,9 @@ const ProductsPage = () => {
   const [sortCriteria, setSortCriteria] = useState('price-asc');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const productsPerPage = 8;
+  const filteredProductsPerPage = 8; 
 
   useEffect(() => {
     async function fetchProducts() {
@@ -28,16 +30,7 @@ const ProductsPage = () => {
     fetchProducts();
   }, []);
 
-  const pageCount = Math.ceil(products.length / productsPerPage);
-
-  const handlePageChange = (selectedPage) => {
-    setCurrentPage(selectedPage.selected);
-  };
-
-  const offset = currentPage * productsPerPage;
-  const currentProducts = products.slice(offset, offset + productsPerPage);
-
-  const sortedProducts = [...currentProducts];
+  const sortedProducts = [...products];
   sortedProducts.sort((a, b) => {
     const [criteria, order] = sortCriteria.split('-');
     if (criteria === 'price') {
@@ -47,6 +40,27 @@ const ProductsPage = () => {
     }
     return 0;
   });
+
+  const filterProductsByCategory = (category) => {
+    if (category === 'all') {
+      return sortedProducts;
+    } else {
+      return sortedProducts.filter((product) => product.category === category);
+    }
+  };
+
+  const handlePageChange = (selectedPage) => {
+    setCurrentPage(selectedPage.selected);
+  };
+
+  const offset = currentPage * productsPerPage;
+  const filteredProducts = filterProductsByCategory(selectedCategory);
+  const pageCount = Math.ceil(filteredProducts.length / filteredProductsPerPage);
+
+  const currentFilteredProducts = filteredProducts.slice(
+    offset,
+    offset + filteredProductsPerPage
+  );
 
   const handleSortBy = (criteria) => {
     setSortCriteria(criteria);
@@ -62,50 +76,57 @@ const ProductsPage = () => {
       await addProduct(newProduct);
       setProducts([...products, newProduct]);
       setIsModalOpen(false);
-      alert('Product updated Added!');
+      alert('Product added successfully!');
     } catch (error) {
       console.error('Error adding product:', error);
     }
   };
 
+  const categories = [
+    'electronics',
+    'jewelery',
+    "men's clothing",
+    "women's clothing"
+  ];
+
   return (
     <div className="mx-4 md:mx-8 lg:mx-12 xl:mx-16">
-      <div className="mb-4 flex flex-wrap items-start"> 
-        <div className=" md:w-1/2 lg:w-3/5 xl:w-4/5 mb-4 md:mb-0"> 
+      <div className="mb-4 flex flex-wrap items-start">
+        <div className="relative w-full md:w-40 xl:w-48 mr-3">
           <button
             type="button"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full md:w-40 xl:w-48"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
             onClick={toggleDropdown}
           >
             Sort
           </button>
           {isDropdownOpen && (
-            <div className="origin-top-left absolute left-0 mt-10 w-full md:w-40 xl:w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
+            <div className="origin-top-left absolute left-0 mt-2 w-full md:w-40 xl:w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
               <div className="py-1" role="none">
                 <button
                   onClick={() => handleSortBy('price-asc')}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full md:w-40 xl:w-48"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full"
                   role="menuitem"
                 >
                   Price (Ascending)
                 </button>
                 <button
                   onClick={() => handleSortBy('price-desc')}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full md:w-40 xl:w-48"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full"
                   role="menuitem"
                 >
                   Price (Descending)
                 </button>
                 <button
                   onClick={() => handleSortBy('name-asc')}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full md:w-40 xl:w-48"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full"
                   role="menuitem"
                 >
                   Name (Ascending)
                 </button>
                 <button
                   onClick={() => handleSortBy('name-desc')}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full md:w-40 xl:w-48"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full"
                   role="menuitem"
                 >
                   Name (Descending)
@@ -114,10 +135,26 @@ const ProductsPage = () => {
             </div>
           )}
         </div>
-        <div className=" md:w-1/2 lg:w-2/5 xl:w-1/5">
+        <div className="relative w-full md:w-40 xl:w-48 mr-3">
+          <select
+            className="relative w-full md:w-40 xl:w-48 mr-3 block appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            <option value="all">All Categories</option>
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="flex-grow"></div> 
+
+        <div className="w-full md:w-40 xl:w-48">
           <button
             onClick={() => setIsModalOpen(true)}
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4 md:mb-0 w-full md:w-40 xl:w-48"
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full"
           >
             Add Product
           </button>
@@ -125,15 +162,17 @@ const ProductsPage = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {sortedProducts.map((product) => (
+        {currentFilteredProducts.map((product) => (
           <Link to={`/products/${product.id}`} key={product.id}>
-            <ProductCard
-              title={product.title}
-              price={product.price}
-              description={product.description}
-              image={product.image}
-              category={product.category}
-            />
+            <Suspense fallback={<div>Loading...</div>}>
+              <ProductCard
+                title={product.title}
+                price={product.price}
+                description={product.description}
+                image={product.image}
+                category={product.category}
+              />
+            </Suspense>
           </Link>
         ))}
       </div>
@@ -162,7 +201,9 @@ const ProductsPage = () => {
         />
       </div>
 
-      <AddProductModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onAddProduct={handleAddProduct} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <AddProductModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onAddProduct={handleAddProduct} />
+      </Suspense>
     </div>
   );
 };

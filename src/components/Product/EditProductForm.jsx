@@ -2,7 +2,7 @@ import React from 'react';
 
 const EditProductForm = ({ product, formData, showUpdateForm, handleInputChange, handleSubmit }) => {
   return (
-    <form onSubmit={handleSubmit} className='mb-0'>
+    <form onSubmit={handleSubmit} className='container'>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
           Title
