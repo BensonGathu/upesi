@@ -73,7 +73,7 @@ const ProductDetail = () => {
   }
 
   return (
-    <div className="h-screen flex items-center">
+    <div className="pt-30 pb-4 lg:py-32 h-full flex items-center">
       <div className='container mx-auto'>
         <div className='flex flex-col lg:flex-row items-center p-10'>
           <div className='flex flex-1 justify-center items-center mb-8 lg:mb-0'>

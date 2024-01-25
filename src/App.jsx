@@ -15,29 +15,29 @@ function App() {
 
   return (
 
-    <div className="App">
+<div className="flex flex-col h-screen justify-between">
 
 
-      <BrowserRouter>
-        <Navbar />
+<BrowserRouter>
+  <Navbar />
 
-        <Routes>
+  <Routes>
 
-          <Route path="login" element={<LoginForm />} />
+    <Route path="login" element={<LoginForm />} />
 
-          <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<ProductsPage />} />
-            <Route path="/products/:id" element={<ProductDetailsPage />} />
-          </Route>
-
-
-        </Routes>
-
-        <Footer />
-      </BrowserRouter>
+    <Route element={<ProtectedRoute />}>
+      <Route path="/" element={<ProductsPage />} />
+      <Route path="/products/:id" element={<ProductDetailsPage />} />
+    </Route>
 
 
-    </div>
+  </Routes>
+
+  <Footer />
+</BrowserRouter>
+
+
+</div>
   )
 
 }
