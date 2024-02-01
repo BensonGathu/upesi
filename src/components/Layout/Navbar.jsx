@@ -50,7 +50,7 @@ const Navbar = (props) => {
                 alt="Flowbite Logo"
               />
               <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                <Link to="/">Upesi</Link>
+                <Link to="/">Upesi Shop</Link>
               </span>
             </a>{" "}
           </div>
